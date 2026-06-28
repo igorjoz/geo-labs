@@ -1,0 +1,19 @@
+﻿model,feature_set,features,train_pct,accuracy_pct
+knn_5,bath_all,"bath_std_41_80, bath_sixph_41_80, bath_mad_41_80, bath_diff_std_41_80, bath_p90_p10_41_80, bath_range_41_80",60,65.25
+knn_5,bath_all,"bath_std_41_80, bath_sixph_41_80, bath_mad_41_80, bath_diff_std_41_80, bath_p90_p10_41_80, bath_range_41_80",40,62.916666666666664
+nearest_centroid,std+diff_std,"bath_std_41_80, bath_diff_std_41_80",60,54.0
+knn_5,bath_all,"bath_std_41_80, bath_sixph_41_80, bath_mad_41_80, bath_diff_std_41_80, bath_p90_p10_41_80, bath_range_41_80",20,53.43750000000001
+nearest_centroid,bath_all,"bath_std_41_80, bath_sixph_41_80, bath_mad_41_80, bath_diff_std_41_80, bath_p90_p10_41_80, bath_range_41_80",60,53.37499999999999
+nearest_centroid,bath_all,"bath_std_41_80, bath_sixph_41_80, bath_mad_41_80, bath_diff_std_41_80, bath_p90_p10_41_80, bath_range_41_80",40,50.083333333333336
+nearest_centroid,std+diff_std,"bath_std_41_80, bath_diff_std_41_80",40,49.333333333333336
+nearest_centroid,std+p90_p10,"bath_std_41_80, bath_p90_p10_41_80",60,49.25
+nearest_centroid,std+sixph,"bath_std_41_80, bath_sixph_41_80",60,46.0
+nearest_centroid,mad+range,"bath_mad_41_80, bath_range_41_80",60,45.75
+nearest_centroid,bath_all,"bath_std_41_80, bath_sixph_41_80, bath_mad_41_80, bath_diff_std_41_80, bath_p90_p10_41_80, bath_range_41_80",20,43.125
+nearest_centroid,std+p90_p10,"bath_std_41_80, bath_p90_p10_41_80",20,42.5
+nearest_centroid,std+diff_std,"bath_std_41_80, bath_diff_std_41_80",20,41.5
+nearest_centroid,mad+range,"bath_mad_41_80, bath_range_41_80",20,40.375
+nearest_centroid,std+sixph,"bath_std_41_80, bath_sixph_41_80",20,40.0625
+nearest_centroid,std+p90_p10,"bath_std_41_80, bath_p90_p10_41_80",40,39.166666666666664
+nearest_centroid,std+sixph,"bath_std_41_80, bath_sixph_41_80",40,36.916666666666664
+nearest_centroid,mad+range,"bath_mad_41_80, bath_range_41_80",40,36.583333333333336

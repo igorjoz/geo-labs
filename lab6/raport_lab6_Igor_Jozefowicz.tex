@@ -309,11 +309,12 @@ def run_classifier(df, feature_names, train_pct, classifier_name):
 \section*{6. Wnioski}
 \begin{enumerate}
     \item Klasa 1, czyli muł, jest najłatwiejsza do rozpoznania. W głównych macierzach niezgodności wszystkie lub prawie wszystkie obiekty tej klasy trafiają do poprawnej klasy.
-    \item Największe pomyłki występują między klasami 2, 3 i 4, co zgadza się z wykresami parametrów, gdzie rozkłady tych klas częściowo się nakładają.
+    \item Największe pomyłki występują między klasami 2, 3 i 4, co zgadza się z wykresami parametrów, gdzie rozkłady tych klas częściowo się nakładają. Same wartości średniego BSS rozdzielają muł od pozostałych typów dna, ale nie opisują wystarczająco dobrze różnic między drobniejszym i grubszym piaskiem oraz mieszaniną osadów.
     \item Najlepsza para parametrów przy 20\% treningu uzyskała accuracy=69.62\%, więc klasyfikacja 2D jest użyteczna, ale ograniczona.
     \item Najlepszy wynik całego zestawienia to \texttt{knn\_5} dla wszystkich parametrów, train\_pct=60\%, accuracy=96.00\%.
-    \item Dla \texttt{NearestCentroid} na wszystkich parametrach accuracy wzrosło od 76.44\% do 89.75\%, więc większy zbiór uczący poprawił stabilność klasyfikacji.
-    \item Dodatkowe parametry własne są przydatne, bo opisują nie tylko średni poziom BSS, lecz także zmianę sygnału wraz z kątem sondowania i lokalną teksturę obrazu.
+    \item Dla \texttt{NearestCentroid} na wszystkich parametrach accuracy wzrosło od 76.44\% do 89.75\%, więc większy zbiór uczący poprawił stabilność klasyfikacji. Poprawa po przejściu z par parametrów na pełny zestaw pokazuje, że pojedyncza prosta cecha nie wystarcza do pełnego opisu kształtu sygnału BSS.
+    \item Dodatkowe parametry własne są przydatne, bo opisują nie tylko średni poziom BSS, lecz także zmianę sygnału wraz z kątem sondowania i lokalną teksturę obrazu. Szczególnie ważne są parametry związane ze spadkiem sygnału i teksturą GLCM, ponieważ odnoszą się do fizycznie widocznych różnic w obrazach sonarowych: ostrości pasma centralnego, zmienności lokalnej oraz asymetrii między sektorami wiązek.
+    \item Wyniki potwierdzają, że dla tego zbioru danych proste klasyfikatory są wystarczające do uzyskania dobrej skuteczności, pod warunkiem dobrania kilku uzupełniających się parametrów. Największym ograniczeniem pozostaje podobieństwo klas 2--4, dlatego dalsza poprawa wymagałaby testowania kolejnych cech teksturowych albo walidacji na niezależnych fragmentach danych.
 \end{enumerate}
 
 \end{document}

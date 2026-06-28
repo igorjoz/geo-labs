@@ -1,0 +1,352 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{polish}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\small\ttfamily,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    frame=single,
+    rulecolor=\color{black},
+    showstringspaces=false
+}
+\lstset{style=pythonstyle}
+\geometry{margin=2.2cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\renewcommand{\arraystretch}{1.15}
+\sloppy
+
+\title{Laboratorium 7\\Dane batymetryczne i klasyfikacja dna morskiego}
+\author{Igor Józefowicz, indeks 193257}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{1. Dane i cel}
+Raport dotyczy batymetrycznych danych sonarowych z pliku \texttt{dane\_z.mat}. Zmienna \texttt{vz} ma rozmiar \(4 \times 600 \times 160\): cztery typy dna, 600 sondowań i 160 wiązek. Celem było obliczenie parametrów opisujących małoskalową rzeźbę dna, wizualizacja ich rozkładów oraz klasyfikacja czterech typów dna.
+
+Typy dna są takie same jak w laboratorium 6: 1 -- muł, 2 -- mieszanina mułu, piasku i odpadów antropogenicznych, 3 -- piasek drobnoziarnisty, 4 -- piasek gruboziarnisty. Do obliczeń użyto pierwszych 500 sondowań z każdej klasy.
+
+\section*{2. Detrending i parametry}
+Główne wyniki policzono dla sektora wiązek 41--80 po detrendingu liniowym każdego sondowania. Jest to zgodne z instrukcją, ponieważ bez detrendingu parametry łatwo opisują głębokość i nachylenie większej skali, a nie samą lokalną rzeźbę dna.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\begin{tabular}{lrrrrrr}
+\toprule
+typ dna & std & sixph & MAD & diff std & p90-p10 & range \\
+\midrule
+1. muł & 0.052 & 0.197 & 0.041 & 0.053 & 0.124 & 0.247 \\
+2. muł/piasek/odpady & 0.031 & 0.118 & 0.024 & 0.036 & 0.072 & 0.153 \\
+3. piasek drobnoziarnisty & 0.034 & 0.131 & 0.026 & 0.041 & 0.075 & 0.177 \\
+4. piasek gruboziarnisty & 0.059 & 0.201 & 0.049 & 0.036 & 0.147 & 0.233 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Dla kontroli policzono także wariant bez detrendingu. Porównanie pokazuje, że wartości parametrów bez detrendingu są dużo większe, bo zawierają trend głębokości.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\begin{tabular}{lrrrrrr}
+\toprule
+klasa & std det. & sixph det. & range det. & std bez det. & sixph bez det. & range bez det. \\
+\midrule
+1 & 0.052 & 0.197 & 0.247 & 0.342 & 1.11 & 1.19 \\
+2 & 0.031 & 0.118 & 0.153 & 0.070 & 0.229 & 0.259 \\
+3 & 0.034 & 0.131 & 0.177 & 0.090 & 0.299 & 0.332 \\
+4 & 0.059 & 0.201 & 0.233 & 0.151 & 0.477 & 0.517 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{3. Wizualizacja parametrów}
+Wizualizacje pokazują, że parametry batymetryczne po detrendingu słabiej separują klasy niż parametry BSS z laboratorium 6. Klasy 2 i 3 częściowo się nakładają, a klasa 4 jest bardziej podobna do klasy 1 pod względem części parametrów wysokościowych.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{\detokenize{wyniki_lab7/01_bathymetry_surfaces.png}}
+\caption{Powierzchnie batymetryczne po detrendingu.}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{\detokenize{wyniki_lab7/02_scatter_std_sixph.png}}
+\caption{Rozkład 2D: odchylenie standardowe i six-point height.}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{\detokenize{wyniki_lab7/03_scatter_std_p90_p10.png}}
+\caption{Rozkład 2D: odchylenie standardowe i percentyl p90-p10.}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth]{\detokenize{wyniki_lab7/04_boxplots.png}}
+\caption{Boxploty wybranych parametrów batymetrycznych.}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{\detokenize{wyniki_lab7/05_correlation_heatmap.png}}
+\caption{Korelacje parametrów batymetrycznych.}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\textwidth]{\detokenize{wyniki_lab7/06_scatter_3d.png}}
+\caption{Dodatkowy rozkład 3D parametrów.}
+\end{figure}
+
+
+\section*{4. Klasyfikacja batymetryczna}
+Klasyfikację minimalnoodległościową odtworzono przez \texttt{NearestCentroid}. Dane normalizowano metodą min-max, a podział uczący/testowy wykonano per klasa.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{llrr}
+\toprule
+model & parametry & trening [\%] & accuracy [\%] \\
+\midrule
+kNN & bath all & 60 & 65.25 \\
+kNN & bath all & 40 & 62.92 \\
+min. odl. & std + diff std & 60 & 54 \\
+kNN & bath all & 20 & 53.44 \\
+min. odl. & bath all & 60 & 53.37 \\
+min. odl. & bath all & 40 & 50.08 \\
+min. odl. & std + diff std & 40 & 49.33 \\
+min. odl. & std + p90-p10 & 60 & 49.25 \\
+min. odl. & std + sixph & 60 & 46 \\
+min. odl. & MAD + range & 60 & 45.75 \\
+min. odl. & bath all & 20 & 43.12 \\
+min. odl. & std + p90-p10 & 20 & 42.50 \\
+min. odl. & std + diff std & 20 & 41.50 \\
+min. odl. & MAD + range & 20 & 40.38 \\
+min. odl. & std + sixph & 20 & 40.06 \\
+min. odl. & std + p90-p10 & 40 & 39.17 \\
+min. odl. & std + sixph & 40 & 36.92 \\
+min. odl. & MAD + range & 40 & 36.58 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Najlepsza para parametrów przy 20\% treningu to \texttt{std+p90\_p10}, accuracy=42.50\%. Najlepszy wynik dla samej batymetrii w całym zestawieniu to \texttt{knn\_5}, \texttt{bath\_all}, train\_pct=60\%, accuracy=65.25\%.
+
+
+\begin{table}[H]
+\centering
+\small
+\caption{Najlepsza para parametrów batymetrycznych, 20\% treningu}
+\begin{minipage}{0.47\textwidth}
+\centering
+\textbf{Liczba obiektów}\\[0.35em]
+\begin{tabular}{lrrrr}
+\toprule
+ & kl. 1 & kl. 2 & kl. 3 & kl. 4 \\
+\midrule
+rzecz. 1 & 358 & 2 & 0 & 40 \\
+rzecz. 2 & 6 & 76 & 262 & 56 \\
+rzecz. 3 & 35 & 103 & 153 & 109 \\
+rzecz. 4 & 262 & 24 & 21 & 93 \\
+\bottomrule
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}{0.47\textwidth}
+\centering
+\textbf{Udział procentowy [\%]}\\[0.35em]
+\begin{tabular}{lrrrr}
+\toprule
+ & kl. 1 & kl. 2 & kl. 3 & kl. 4 \\
+\midrule
+rzecz. 1 & 89.50 & 0.50 & 0.00 & 10.00 \\
+rzecz. 2 & 1.50 & 19.00 & 65.50 & 14.00 \\
+rzecz. 3 & 8.75 & 25.75 & 38.25 & 27.25 \\
+rzecz. 4 & 65.50 & 6.00 & 5.25 & 23.25 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\small
+\caption{NearestCentroid, wszystkie parametry batymetryczne, 20\% treningu}
+\begin{minipage}{0.47\textwidth}
+\centering
+\textbf{Liczba obiektów}\\[0.35em]
+\begin{tabular}{lrrrr}
+\toprule
+ & kl. 1 & kl. 2 & kl. 3 & kl. 4 \\
+\midrule
+rzecz. 1 & 344 & 46 & 0 & 10 \\
+rzecz. 2 & 23 & 85 & 196 & 96 \\
+rzecz. 3 & 73 & 138 & 117 & 72 \\
+rzecz. 4 & 213 & 34 & 9 & 144 \\
+\bottomrule
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}{0.47\textwidth}
+\centering
+\textbf{Udział procentowy [\%]}\\[0.35em]
+\begin{tabular}{lrrrr}
+\toprule
+ & kl. 1 & kl. 2 & kl. 3 & kl. 4 \\
+\midrule
+rzecz. 1 & 86.00 & 11.50 & 0.00 & 2.50 \\
+rzecz. 2 & 5.75 & 21.25 & 49.00 & 24.00 \\
+rzecz. 3 & 18.25 & 34.50 & 29.25 & 18.00 \\
+rzecz. 4 & 53.25 & 8.50 & 2.25 & 36.00 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{table}
+
+
+\section*{5. Wariant łączony z BSS}
+Instrukcja dopuszcza łączne użycie parametrów z bieżącego ćwiczenia i parametrów BSS z laboratorium 6. Cechy BSS policzono ponownie przez funkcje z \texttt{lab6\_solution.py} i połączono z batymetrią po \texttt{class\_id} oraz \texttt{object\_id}.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{llrr}
+\toprule
+model & parametry & trening [\%] & accuracy [\%] \\
+\midrule
+kNN & batymetria + BSS & 60 & 96.38 \\
+kNN & BSS & 60 & 96 \\
+min. odl. & batymetria + BSS & 60 & 94.25 \\
+kNN & batymetria + BSS & 40 & 93.17 \\
+kNN & BSS & 40 & 92.50 \\
+kNN & batymetria + BSS & 20 & 89.88 \\
+min. odl. & BSS & 60 & 89.75 \\
+min. odl. & batymetria + BSS & 40 & 87.83 \\
+kNN & BSS & 20 & 86.69 \\
+min. odl. & BSS & 40 & 84.75 \\
+min. odl. & batymetria + BSS & 20 & 81.06 \\
+min. odl. & BSS & 20 & 76.44 \\
+kNN & batymetria & 60 & 65.25 \\
+kNN & batymetria & 40 & 62.92 \\
+kNN & batymetria & 20 & 53.44 \\
+min. odl. & batymetria & 60 & 53.37 \\
+min. odl. & batymetria & 40 & 50.08 \\
+min. odl. & batymetria & 20 & 43.12 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Najlepszy wynik wariantu łączonego uzyskał model \texttt{knn\_5} dla zestawu \texttt{combined\_bath\_bss}, train\_pct=60\%, accuracy=96.38\%.
+
+
+\begin{table}[H]
+\centering
+\small
+\caption{kNN, batymetria + BSS, 20\% treningu}
+\begin{minipage}{0.47\textwidth}
+\centering
+\textbf{Liczba obiektów}\\[0.35em]
+\begin{tabular}{lrrrr}
+\toprule
+ & kl. 1 & kl. 2 & kl. 3 & kl. 4 \\
+\midrule
+rzecz. 1 & 400 & 0 & 0 & 0 \\
+rzecz. 2 & 1 & 337 & 40 & 22 \\
+rzecz. 3 & 1 & 3 & 343 & 53 \\
+rzecz. 4 & 4 & 0 & 38 & 358 \\
+\bottomrule
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}{0.47\textwidth}
+\centering
+\textbf{Udział procentowy [\%]}\\[0.35em]
+\begin{tabular}{lrrrr}
+\toprule
+ & kl. 1 & kl. 2 & kl. 3 & kl. 4 \\
+\midrule
+rzecz. 1 & 100.00 & 0.00 & 0.00 & 0.00 \\
+rzecz. 2 & 0.25 & 84.25 & 10.00 & 5.50 \\
+rzecz. 3 & 0.25 & 0.75 & 85.75 & 13.25 \\
+rzecz. 4 & 1.00 & 0.00 & 9.50 & 89.50 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{table}
+
+
+\section*{6. Dodany kod własny}
+Pliki startowe do laboratorium zawierały skrypty MATLAB/Octave: \texttt{v\_z.m}, \texttt{obl\_stdh.m}, \texttt{obl\_sixph.m}, \texttt{obl\_sredniah.m}, \texttt{rozkl2D.m} oraz \texttt{kl\_min\_dist\_2D.m}. Nowy kod dodany w ramach rozwiązania znajduje się w \texttt{lab7\_solution.py}. Poniżej pokazano tylko najważniejsze fragmenty.
+
+
+\begin{lstlisting}[caption={Fragment własnego kodu: detrending i parametry batymetryczne.}]
+def detrend_line(values):
+    x = np.arange(1, len(values) + 1, dtype=float)
+    slope, intercept = np.polyfit(x, values, 1)
+    return values - (slope * x + intercept)
+
+features = {
+    "bath_std_41_80": values.std(axis=2),
+    "bath_sixph_41_80": six_point_height(values),
+    "bath_mad_41_80": np.mean(np.abs(values - values.mean(axis=2, keepdims=True)), axis=2),
+    "bath_diff_std_41_80": np.diff(values, axis=2).std(axis=2),
+}
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption={Fragment własnego kodu: klasyfikacja i macierz niezgodności.}]
+def run_classifier(df, feature_names, train_pct, classifier_name):
+    x = MinMaxScaler().fit_transform(df[feature_names].to_numpy())
+    y = df["class_id"].to_numpy()
+    train_idx, test_idx = split_by_class(y, train_pct)
+    classifier = NearestCentroid() if classifier_name == "nearest_centroid" else KNeighborsClassifier(n_neighbors=5)
+    classifier.fit(x[train_idx], y[train_idx])
+    predictions = classifier.predict(x[test_idx])
+    return accuracy_score(y[test_idx], predictions) * 100, confusion_matrix(y[test_idx], predictions)
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption={Fragment własnego kodu: połączenie batymetrii z cechami BSS.}]
+lab6 = import_lab6_solution()
+bss_features, _ = lab6.compute_features(lab6.load_bss())
+combined = bath_features.merge(
+    bss_features[["class_id", "object_id", *BSS_FEATURES]],
+    on=["class_id", "object_id"],
+)
+\end{lstlisting}
+
+
+\section*{7. Wnioski}
+\begin{enumerate}
+    \item Po detrendingu parametry batymetryczne opisują małoskalową rzeźbę dna, ale separacja klas jest umiarkowana. Najlepszy wynik samej batymetrii wyniósł 65.25\%.
+    \item Wariant bez detrendingu daje większe wartości parametrów, lecz taki wynik łatwo interpretować jako wpływ głębokości lub trendu większej skali, a nie rodzaju dna.
+    \item Największe pomyłki dla samej batymetrii występują między klasami o podobnej lokalnej zmienności powierzchni.
+    \item Połączenie batymetrii z BSS znacząco poprawiło wynik: najlepszy wariant łączony osiągnął accuracy=96.38\%.
+    \item W praktyce parametry BSS są w tych danych silniejsze klasyfikacyjnie, ale batymetria dostarcza dodatkowej informacji o lokalnym kształcie powierzchni dna.
+\end{enumerate}
+
+\end{document}

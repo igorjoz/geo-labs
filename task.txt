@@ -1,0 +1,15 @@
+Do oddania do końca sesji podstawowej - okolice końca czerwca
+
+Można zrobić dodatkowe coś, np. zamiast wizualizacja 2D to zrobić wizualizację 3D
+
+Podobnie potem z parametrami z 2 zadania. Albo kilka parametrów.
+
+Nowo napisany kod jest do zamieszczenia w sprawozdaniu
+
+Do wysłania jest raport i dodane własne skrypty (w sprawozdaniu).
+Chyba że są to niewielkie modyfikacje typu zmiana parametru, to wtedy nie trzeba.
+
+Oceniane są:
+- poprawność wykonanie zadania 
+- własne dodatki, bonusy
+- porządnie napisane podsumowanie

@@ -1,0 +1,16 @@
+﻿model,feature_set,features,train_pct,accuracy_pct
+knn_5,all_features,"mean_80_100, drop_80_100, glcm_entropy_91_100, glcm_homogeneity_91_100, std_80_100, left_right_diff, edge_center_diff",60,96.0
+knn_5,all_features,"mean_80_100, drop_80_100, glcm_entropy_91_100, glcm_homogeneity_91_100, std_80_100, left_right_diff, edge_center_diff",40,92.5
+nearest_centroid,all_features,"mean_80_100, drop_80_100, glcm_entropy_91_100, glcm_homogeneity_91_100, std_80_100, left_right_diff, edge_center_diff",60,89.75
+knn_5,all_features,"mean_80_100, drop_80_100, glcm_entropy_91_100, glcm_homogeneity_91_100, std_80_100, left_right_diff, edge_center_diff",20,86.6875
+nearest_centroid,all_features,"mean_80_100, drop_80_100, glcm_entropy_91_100, glcm_homogeneity_91_100, std_80_100, left_right_diff, edge_center_diff",40,84.75
+nearest_centroid,mean+homogeneity,"mean_80_100, glcm_homogeneity_91_100",40,77.58333333333334
+nearest_centroid,all_features,"mean_80_100, drop_80_100, glcm_entropy_91_100, glcm_homogeneity_91_100, std_80_100, left_right_diff, edge_center_diff",20,76.4375
+nearest_centroid,mean+homogeneity,"mean_80_100, glcm_homogeneity_91_100",60,75.25
+nearest_centroid,mean+drop,"mean_80_100, drop_80_100",60,70.875
+nearest_centroid,mean+edge_center,"mean_80_100, edge_center_diff",20,69.625
+nearest_centroid,mean+drop,"mean_80_100, drop_80_100",40,68.91666666666667
+nearest_centroid,mean+drop,"mean_80_100, drop_80_100",20,67.4375
+nearest_centroid,mean+edge_center,"mean_80_100, edge_center_diff",40,67.16666666666666
+nearest_centroid,mean+edge_center,"mean_80_100, edge_center_diff",60,65.125
+nearest_centroid,mean+homogeneity,"mean_80_100, glcm_homogeneity_91_100",20,63.1875
